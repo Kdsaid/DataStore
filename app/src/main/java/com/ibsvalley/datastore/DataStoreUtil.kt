@@ -80,7 +80,6 @@ class DataStoreUtil private constructor() {
     companion object {
         private var context: Context? = null
 
-        @SuppressLint("StaticFieldLeak")
         private var instance: DataStoreUtil? = null
         private var preferenceName: String? = null
 
