@@ -1,6 +1,5 @@
 package com.ibsvalley.datastore
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -81,11 +80,11 @@ class DataStoreUtil private constructor() {
         private var context: Context? = null
 
         private var instance: DataStoreUtil? = null
-        private var preferenceName: String? = null
+        private var dataStoreName: String? = null
 
         fun getDataStore(context: Context): DataStoreUtil? {
             Companion.context = context
-            preferenceName = context.packageName
+            dataStoreName = context.packageName
             if (instance == null) {
                 instance = DataStoreUtil()
             }
@@ -95,7 +94,7 @@ class DataStoreUtil private constructor() {
 
 
     init {
-        dataStore = preferenceName?.let { context!!.createDataStore(it) }!!
+        dataStore = dataStoreName?.let { context!!.createDataStore(it) }!!
 
 
     }

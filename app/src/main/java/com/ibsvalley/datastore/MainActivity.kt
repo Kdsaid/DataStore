@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
                 val value =
                         DataStoreUtil.getDataStore(applicationContext)?.read(
                                 binding.etReadkey.text.toString(),"khaled")
-                binding.tvReadValue.text = value ?: "No value found"
+                binding.tvReadValue.text = value
             }
         }
     }
