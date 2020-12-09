@@ -3,6 +3,7 @@ package com.ibsvalley.datastore
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.clear
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.preferencesKey
 import androidx.datastore.preferences.createDataStore
@@ -19,15 +20,15 @@ class DataStoreUtil private constructor() {
         }
     }
 
-    suspend fun read(key: String,defaultValue:String): String? {
+    suspend fun read(key: String, defaultValue: String): String? {
         val dataStoreKey = preferencesKey<String>(key)
         val preferences = dataStore.data.first()
-        if (preferences[dataStoreKey]!=null)
-        return preferences[dataStoreKey]
+        if (preferences[dataStoreKey] != null)
+            return preferences[dataStoreKey]
         return defaultValue
     }
 
-    suspend fun read(key: String, defaultValue: Int ): Int? {
+    suspend fun read(key: String, defaultValue: Int): Int? {
         val dataStoreKey = preferencesKey<Int>(key)
         val preferences = dataStore.data.first()
         if (preferences[dataStoreKey] != null) {
@@ -43,7 +44,7 @@ class DataStoreUtil private constructor() {
         }
     }
 
-    suspend fun read(key: String, defaultValue: Double ): Double? {
+    suspend fun read(key: String, defaultValue: Double): Double? {
         val dataStoreKey = preferencesKey<Double>(key)
         val preferences = dataStore.data.first()
         if (preferences[dataStoreKey] != null) {
@@ -59,7 +60,7 @@ class DataStoreUtil private constructor() {
         }
     }
 
-    suspend fun read(key: String, defaultValue: Boolean ): Boolean? {
+    suspend fun read(key: String, defaultValue: Boolean): Boolean? {
         val dataStoreKey = preferencesKey<Boolean>(key)
         val preferences = dataStore.data.first()
         if (preferences[dataStoreKey] != null) {
@@ -73,6 +74,10 @@ class DataStoreUtil private constructor() {
         dataStore.edit { settings ->
             settings[dataStoreKey] = value
         }
+    }
+
+    suspend fun clear() {
+        dataStore.edit { it.clear() }
     }
 
 
@@ -95,7 +100,5 @@ class DataStoreUtil private constructor() {
 
     init {
         dataStore = dataStoreName?.let { context!!.createDataStore(it) }!!
-
-
     }
 }
