@@ -2,10 +2,7 @@ package com.ibsvalley.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.clear
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.createDataStore
 import kotlinx.coroutines.flow.first
 
@@ -81,6 +78,10 @@ class DataStoreUtil private constructor() {
     }
 
 
+
+
+
+
     companion object {
         private var context: Context? = null
 
@@ -91,7 +92,9 @@ class DataStoreUtil private constructor() {
             Companion.context = context
             dataStoreName = context.packageName
             if (instance == null) {
-                instance = DataStoreUtil()
+                synchronized(DataStoreUtil::class.java) {
+                    instance = DataStoreUtil()
+                }
             }
             return instance
         }
