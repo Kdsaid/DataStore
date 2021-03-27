@@ -1,107 +1,75 @@
 package com.ibsvalley.datastore
-
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
-import androidx.datastore.preferences.createDataStore
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
-class DataStoreUtil private constructor() {
-    private var dataStore: DataStore<Preferences>
-
-
+object DataStoreUtil  {
+    private lateinit var dataStore: DataStore<Preferences>
+    fun Context.getDataStore(): DataStoreUtil? {
+        dataStoreName = packageName
+        if (instance == null) {
+            synchronized(DataStoreUtil::class.java) {
+                instance = DataStoreUtil
+            }
+        }
+        return instance
+    }
     suspend fun write(key: String, value: String) {
-        val dataStoreKey = preferencesKey<String>(key)
         dataStore.edit { settings ->
-            settings[dataStoreKey] = value
+            settings[stringPreferencesKey(key)] = value
         }
     }
 
-    suspend fun read(key: String, defaultValue: String): String? {
-        val dataStoreKey = preferencesKey<String>(key)
-        val preferences = dataStore.data.first()
-        if (preferences[dataStoreKey] != null)
-            return preferences[dataStoreKey]
-        return defaultValue
-    }
-
-    suspend fun read(key: String, defaultValue: Int): Int? {
-        val dataStoreKey = preferencesKey<Int>(key)
-        val preferences = dataStore.data.first()
-        if (preferences[dataStoreKey] != null) {
-            return preferences[dataStoreKey]
-        }
-        return defaultValue
+    suspend fun read(key: String, defaultValue: String): String {
+        return dataStore.data.map { settings ->
+            settings[stringPreferencesKey(key)] ?: defaultValue
+        }.first().toString()
     }
 
     suspend fun write(key: String, value: Int) {
-        val dataStoreKey = preferencesKey<Int>(key)
         dataStore.edit { settings ->
-            settings[dataStoreKey] = value
+            settings[intPreferencesKey(key)] = value
         }
+    }
+    suspend fun read(key: String, defaultValue: Int): Int {
+        return dataStore.data.map { settings ->
+            settings[intPreferencesKey(key)] ?: defaultValue
+        }.first().toInt()
     }
 
-    suspend fun read(key: String, defaultValue: Double): Double? {
-        val dataStoreKey = preferencesKey<Double>(key)
-        val preferences = dataStore.data.first()
-        if (preferences[dataStoreKey] != null) {
-            return preferences[dataStoreKey]
-        }
-        return defaultValue
-    }
 
     suspend fun write(key: String, value: Double) {
-        val dataStoreKey = preferencesKey<Double>(key)
         dataStore.edit { settings ->
-            settings[dataStoreKey] = value
+            settings[doublePreferencesKey(key)] = value
         }
     }
+    suspend fun read(key: String, defaultValue: Double): Double {
+        return dataStore.data.map { settings ->
+            settings[doublePreferencesKey(key)] ?: defaultValue
+        }.first().toDouble()
 
-    suspend fun read(key: String, defaultValue: Boolean): Boolean? {
-        val dataStoreKey = preferencesKey<Boolean>(key)
-        val preferences = dataStore.data.first()
-        if (preferences[dataStoreKey] != null) {
-            return preferences[dataStoreKey]
-        }
-        return defaultValue
     }
-
     suspend fun write(key: String, value: Boolean) {
-        val dataStoreKey = preferencesKey<Boolean>(key)
         dataStore.edit { settings ->
-            settings[dataStoreKey] = value
+            settings[booleanPreferencesKey(key)] = value
         }
+    }
+    suspend fun read(key: String, defaultValue: Boolean): Boolean {
+        return dataStore.data.map { settings ->
+            settings[booleanPreferencesKey(key)] ?: defaultValue
+        }.first()
+
     }
 
     suspend fun clear() {
         dataStore.edit { it.clear() }
     }
+    private var instance: DataStoreUtil? = null
+    private var dataStoreName: String? = null
 
 
 
 
-
-
-    companion object {
-        private var context: Context? = null
-
-        private var instance: DataStoreUtil? = null
-        private var dataStoreName: String? = null
-
-        fun getDataStore(context: Context): DataStoreUtil? {
-            Companion.context = context
-            dataStoreName = context.packageName
-            if (instance == null) {
-                synchronized(DataStoreUtil::class.java) {
-                    instance = DataStoreUtil()
-                }
-            }
-            return instance
-        }
-    }
-
-
-    init {
-        dataStore = dataStoreName?.let { context!!.createDataStore(it) }!!
-    }
 }
