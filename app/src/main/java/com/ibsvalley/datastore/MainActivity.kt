@@ -3,8 +3,10 @@ package com.ibsvalley.datastore
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.ibsvalley.datastore.DataStoreUtil.getDataStore
+import com.ibsvalley.datastore.DataStoreUtil.read
+import com.ibsvalley.datastore.DataStoreUtil.write
 import com.ibsvalley.datastore.databinding.ActivityMainBinding
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
@@ -19,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener {
             lifecycleScope.launch {
-                applicationContext.getDataStore()?.write(
+                applicationContext.write(
                         binding.etSaveKey.text.toString(),
                         binding.etSaveValue.text.toString()
                 )
@@ -29,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnRead.setOnClickListener {
             lifecycleScope.launch {
                 val value =
-                    applicationContext.getDataStore()?.read(
+                    applicationContext.read(
                                 binding.etReadkey.text.toString(),"khaled")
                 binding.tvReadValue.text = value
             }
