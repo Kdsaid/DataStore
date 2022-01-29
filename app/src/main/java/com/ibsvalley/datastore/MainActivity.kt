@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         binding.btnSave.setOnClickListener {
             lifecycleScope.launch {
                 applicationContext.write(
