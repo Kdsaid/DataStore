@@ -5,7 +5,6 @@ plugins {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.ibsvalley.datastore"
@@ -47,11 +46,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // Preferences DataStore
-    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha08"
-    implementation "androidx.datastore:datastore:1.0.0-alpha08"
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+    implementation "androidx.datastore:datastore:1.0.0"
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
     // Coroutine Lifecycle Scopes
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
