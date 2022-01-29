@@ -1,14 +1,12 @@
 package com.ibsvalley.datastore
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.ibsvalley.datastore.DataStoreUtil.read
 import com.ibsvalley.datastore.DataStoreUtil.write
 import com.ibsvalley.datastore.databinding.ActivityMainBinding
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-
 
 
 class MainActivity : AppCompatActivity() {
