@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
+
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
